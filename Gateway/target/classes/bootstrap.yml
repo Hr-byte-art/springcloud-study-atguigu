@@ -1,0 +1,49 @@
+spring:
+#  profiles:
+#    active: route
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowed-headers: "*"
+      routes:
+        - id: order-route
+          uri: lb://service-order # lb = load balance
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
+            - OnceToken=X-Response-Token,jwt
+        - id: user-route
+          uri: lb://service-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
+
+        - id: bing-route
+          uri: https://cn.bing.com
+          predicates:
+            - Path=/search
+            - name: Query
+              args:
+                param: q
+                regex: haha
+            - name: Role # 使用类名前缀（Role = RoleRoutePredicateFactory 的 "Role" 部分
+              args:
+                param: vip
+                value: true
+      default-filters:
+        - name: AddResponseHeader
+          args:
+            name: X-Response-Header
+            value: "Hello World"
+server:
+  port: 80

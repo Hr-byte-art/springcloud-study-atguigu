@@ -1,0 +1,21 @@
+# bootstrap.yml
+spring:
+  application:
+    name: service-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+  config:
+    import:
+    - nacos:service-product-config.yaml
+    - nacos:sentinel.yaml
+server:
+  port: 8000
+#  servlet:
+#    context-path: /api

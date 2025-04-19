@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id : order-route
+          uri : lb://service-order # lb = load balance
+          predicates:
+            - Path=/api/order/**
+        - id : user-route
+          uri : lb://service-product
+          predicates:
+            - Path=/api/product/**
+        - id : bing-route
+          uri : https://cn.bing.com
+          # 作用：只有路由为search?q=haha,才会调用这个
+          predicates:
+            - Path=/search
+            - name: Query
+              args:
+                param: q
+                regex: haha

@@ -1,0 +1,52 @@
+#spring:
+#  profiles:
+#    active: dev
+#  application:
+#    name: service-order
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#      config:
+#        namespace: ${spring.profiles.active:dev}
+#    sentinel:
+#      transport:
+#        dashboard: localhost:8080
+#      eager: true
+##  config:
+##    import: nacos:service-order-config.yaml
+#server:
+#  port: 9000
+#logging:
+#  level:
+#    com.wjh.feign: debug
+#
+#feign:
+#  sentinel:
+#    enabled: true
+#---
+#spring:
+#  config:
+#    import:
+#      - nacos:common.yaml?group=order
+#      - nacos:database.yaml?group=order
+#    activate:
+#      on-profile: dev
+#---
+#spring:
+#  config:
+#    import:
+#      - nacos:common.yaml?group=order
+#      - nacos:database.yaml?group=order
+#      - nacos:hahahaha.yaml?group=order
+#    activate:
+#      on-profile: test
+#---
+#spring:
+#  config:
+#    import:
+#      - nacos:common.yaml?group=order
+#      - nacos:database.yaml?group=order
+#      - nacos:hehehehe.yaml?group=order
+#    activate:
+#      on-profile: prop

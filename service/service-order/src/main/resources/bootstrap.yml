@@ -1,0 +1,38 @@
+server:
+  port: 9000
+#  servlet:
+#    context-path: /api
+spring:
+#  profiles:
+#    active: dev
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+    #      config:
+#        namespace: ${spring.profiles.active:dev}
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+      eager: true
+      web-context-unify: false
+  config:
+    import:
+      - nacos:service-order-config.yaml
+      - nacos:sentinel.yaml
+
+
+logging:
+  level:
+    com.wjh.feign: debug
+
+feign:
+  sentinel:
+    enabled: true
